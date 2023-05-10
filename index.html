@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 4</title>
+</head>
+<body>
+    <h1>Survey Form</h1><br><br>
+    <form action="https://enw7u145b8im9.x.pipedream.net/" method="post">
+    
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName"><br>
+
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName"><br>
+
+  <label for="phoneNumber">Phone Number:</label>
+  <input type="text" id="phoneNumber" name="phoneNumber"><br>
+
+  <label for="email">Email:</label>
+  <input type="text" id="email" name="email"><br>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password"><br><br>
+
+  <input type="checkbox" id="termsAndConditions" name="termsAndConditions">
+  <label for="termsAndConditions">I agree to the given Terms and Conditions.</label><br><br><br><br>
+
+<div id="butt">
+    <center><input type="submit" value="Submit"></center>
+</div>
+</form>
+<br>
+<div id="errorMessages"></div>
+<script>
+    const form = document.querySelector('form');
+    const errorMessages = document.getElementById('errorMessages');
+
+  form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  errorMessages.innerHTML = '';
+
+  const firstName = form.elements.firstName.value.trim();
+  const lastName = form.elements.lastName.value.trim();
+  const phoneNumber = form.elements.phoneNumber.value.trim();
+  const email = form.elements.email.value.trim();
+  const password = form.elements.password.value.trim();
+  const termsAndConditions = form.elements.termsAndConditions.checked;
+
+  // Name validation
+  if (firstName === '' || lastName === '') {
+    displayErrorMessage('Name cannot be empty');
+  }
+
+  // Phone number validation
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    displayErrorMessage('Please enter a valid phone number');
+  }
+
+  // Email validation
+  if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    displayErrorMessage('Please enter a valid email address');
+  }
+
+  // Password validation
+  if (password.length < 8 || !/\d/.test(password) || !/[A-Z]/.test(password)) {
+    displayErrorMessage('Please enter a valid password (at least 8 characters with one numeric and one uppercase value)');
+  }
+
+  // Terms and conditions validation
+  if (!termsAndConditions) {
+    displayErrorMessage('Please agree to the given Terms and Conditions');
+  }
+
+  // If there are no error messages, submit the form
+  if (errorMessages.innerHTML === '') {
+    console.log({
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      password,
+      termsAndConditions,
+    });
+    alert('Form submitted successfully');
+  }
+});
+
+function displayErrorMessage(errorMessage) {
+  const p = document.createElement('p');
+  p.classList.add('error');
+  p.innerText = errorMessage;
+  errorMessages.appendChild(p);
+}
+
+</script>
+</body>
+</html>
